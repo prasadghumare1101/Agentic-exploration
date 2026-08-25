@@ -31,3 +31,6 @@ aero_gcs/
 
 # Stray working images at the repo root.
 /*.png
+
+# editor state (machine-local)
+.vscode/
