@@ -1,15 +1,18 @@
-#                                                  Agentic Exploration
+<h1 align="center">Agentic Exploration</h1>
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
-![ROS 2](https://img.shields.io/badge/ROS%202-Humble-22314E?style=flat-square&logo=ros&logoColor=white)
-![RTAB-Map](https://img.shields.io/badge/RTAB--Map-SLAM-2E7D32?style=flat-square)
-![PX4](https://img.shields.io/badge/PX4-SITL-3C9DD0?style=flat-square)
-![Docker](https://img.shields.io/badge/Docker-ready-2496ED?style=flat-square&logo=docker&logoColor=white)
-![Status](https://img.shields.io/badge/status-simulation%20testbed-9A6412?style=flat-square)
+<p align="center">
+  GPS-denied autonomous navigation for a drone swarm — online LiDAR mapping,
+  RTAB-Map SLAM, and A* planning over a map the vehicles build while they fly.
+</p>
 
-GPS-denied autonomous navigation for a drone swarm — online LiDAR mapping, RTAB-Map SLAM, and A*
-path planning over a map the vehicles build while they fly. Runs on ROS 2 Humble, PX4 SITL and
-Gazebo Classic.
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License: MIT"></a>
+  <img src="https://img.shields.io/badge/ROS%202-Humble-22314E?style=flat-square&logo=ros&logoColor=white" alt="ROS 2">
+  <img src="https://img.shields.io/badge/RTAB--Map-SLAM-2E7D32?style=flat-square" alt="RTAB-Map">
+  <img src="https://img.shields.io/badge/PX4-SITL-3C9DD0?style=flat-square" alt="PX4">
+  <img src="https://img.shields.io/badge/Docker-ready-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/status-simulation%20testbed-9A6412?style=flat-square" alt="Status">
+</p>
 
 <p align="center">
   <img src="gif/SLAM/single-SLAM.gif" width="880" alt="A drone building an occupancy map while navigating">
