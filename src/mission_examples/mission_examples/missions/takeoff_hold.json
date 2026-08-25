@@ -1,0 +1,7 @@
+{
+  "mission_id": "demo_takeoff",
+  "phases": [
+    {"name": "takeoff", "primitive": "takeoff", "params": {"altitude": 4.0}, "timeout": 40},
+    {"name": "hold", "primitive": "wait", "params": {"duration": 10}, "timeout": 15}
+  ]
+}

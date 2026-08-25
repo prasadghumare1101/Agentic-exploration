@@ -1,0 +1,55 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   AEGIS theme
+   App bg #0B101A · Panel #111722 · Borders #334155/60 · Accent #22D3EE
+   Healthy #4ADE80 · Warning #F97316 · Text #F1F5F9 · Muted #94A3B8
+   --------------------------------------------------------------------------- */
+:root {
+  --aegis-bg: #0b101a;
+  --aegis-panel: #111722;
+  --aegis-border: rgb(51 65 85 / 0.6);
+  --aegis-accent: #22d3ee;
+  --aegis-ok: #4ade80;
+  --aegis-warn: #f97316;
+  --aegis-text: #f1f5f9;
+  --aegis-muted: #94a3b8;
+}
+
+/* Typography: a modern sans (Inter where available) for ALL interface chrome —
+   labels, section titles, status, drone names, navigation, buttons. Monospace is
+   applied per-element only to numeric readouts: telemetry, lat/lon, coordinates,
+   timestamps and graph axis labels. */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: var(--aegis-bg);
+  color: var(--aegis-text);
+  font-family: Inter, 'Inter var', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Tabular figures so telemetry digits don't jitter as values change. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Thin scrollbars keep the dense layout intact. */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 3px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}

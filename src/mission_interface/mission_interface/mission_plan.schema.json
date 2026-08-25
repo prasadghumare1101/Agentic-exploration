@@ -1,0 +1,189 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "mission_plan.schema.json",
+  "title": "MissionPlan",
+  "description": "Composable swarm mission plan. A mission is any ordered sequence of phases built from the primitive set — there is deliberately NO whitelist of allowed missions. Conventions: frame is LOCAL_ENU_METERS relative to the shared world origin (x = East, y = North, z = altitude above home, positive up); heading is degrees clockwise from North; units are metres, metres/second, seconds. This schema enforces STRUCTURE, types and the primitive whitelist. Numeric safety limits (geofence radius, altitude band, expansion caps) are enforced by mission_interface/validator.py against schema.py, and again continuously in flight by drone_controller — they are not duplicated here.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["phases"],
+  "properties": {
+    "mission_id": { "type": "string", "maxLength": 80 },
+    "notes": { "type": "string", "maxLength": 500 },
+    "unsupported": {
+      "description": "Capabilities the planner could not express (e.g. filming). Reported honestly; never silently substituted with a different mission.",
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 200,
+      "items": { "$ref": "#/definitions/phase" }
+    }
+  },
+  "definitions": {
+    "xy": {
+      "type": "array", "minItems": 2, "maxItems": 2,
+      "items": { "type": "number" }
+    },
+    "xyz": {
+      "type": "array", "minItems": 3, "maxItems": 3,
+      "items": { "type": "number" }
+    },
+    "shape": { "type": "string", "enum": ["line", "wedge", "column", "circle"] },
+    "speed": { "type": "number", "exclusiveMinimum": 0 },
+    "phase": {
+      "type": "object",
+      "additionalProperties": false,
+      "anyOf": [
+        { "required": ["primitive"] },
+        { "required": ["assignments"] }
+      ],
+      "properties": {
+        "name": { "type": "string", "maxLength": 80 },
+        "primitive": {
+          "type": "string",
+          "enum": ["takeoff", "goto", "navigate", "hold", "formation", "survey",
+                   "orbit", "spiral", "land", "rtl", "wait", "follow"]
+        },
+        "params": { "type": "object" },
+        "drones": {
+          "description": "Subset of drones this phase applies to. Omit for all.",
+          "type": "array", "items": { "type": "string" }
+        },
+        "assignments": {
+          "description": "Per-drone actions when drones must do DIFFERENT things.",
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/assignment" }
+        },
+        "advance_when": { "type": "string", "enum": ["all_arrived", "timeout"] },
+        "timeout": { "type": "number", "exclusiveMinimum": 0 }
+      },
+      "allOf": [
+        { "$ref": "#/definitions/params_by_primitive" }
+      ]
+    },
+    "assignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["drone", "primitive"],
+      "properties": {
+        "drone": { "type": "string" },
+        "primitive": {
+          "type": "string",
+          "enum": ["takeoff", "goto", "navigate", "hold", "formation", "survey",
+                   "orbit", "spiral", "land", "rtl", "wait", "follow"]
+        },
+        "params": { "type": "object" }
+      }
+    },
+    "params_by_primitive": {
+      "allOf": [
+        {
+          "if": { "properties": { "primitive": { "const": "takeoff" } }, "required": ["primitive"] },
+          "then": { "properties": { "params": {
+            "type": "object", "additionalProperties": false,
+            "properties": { "altitude": { "type": "number" }, "speed": { "$ref": "#/definitions/speed" } }
+          } } }
+        },
+        {
+          "if": { "properties": { "primitive": { "const": "goto" } }, "required": ["primitive"] },
+          "then": { "properties": { "params": {
+            "type": "object", "additionalProperties": false, "required": ["target"],
+            "properties": { "target": { "$ref": "#/definitions/xyz" }, "speed": { "$ref": "#/definitions/speed" } }
+          } } }
+        },
+        {
+          "if": { "properties": { "primitive": { "const": "navigate" } }, "required": ["primitive"] },
+          "then": { "properties": { "params": {
+            "type": "object", "additionalProperties": false, "required": ["target"],
+            "properties": { "target": { "$ref": "#/definitions/xyz" }, "speed": { "$ref": "#/definitions/speed" } }
+          } } }
+        },
+        {
+          "if": { "properties": { "primitive": { "const": "wait" } }, "required": ["primitive"] },
+          "then": { "properties": { "params": {
+            "type": "object", "additionalProperties": false, "required": ["duration"],
+            "properties": { "duration": { "type": "number", "minimum": 0 } }
+          } } }
+        },
+        {
+          "if": { "properties": { "primitive": { "const": "formation" } }, "required": ["primitive"] },
+          "then": { "properties": { "params": {
+            "type": "object", "additionalProperties": false,
+            "properties": {
+              "shape": { "$ref": "#/definitions/shape" },
+              "spacing": { "type": "number", "exclusiveMinimum": 0 },
+              "heading": { "type": "number" },
+              "anchor": { "$ref": "#/definitions/xyz" },
+              "speed": { "$ref": "#/definitions/speed" }
+            }
+          } } }
+        },
+        {
+          "if": { "properties": { "primitive": { "const": "survey" } }, "required": ["primitive"] },
+          "then": { "properties": { "params": {
+            "type": "object", "additionalProperties": false,
+            "required": ["center", "width", "height", "spacing", "altitude"],
+            "properties": {
+              "center": { "$ref": "#/definitions/xy" },
+              "width": { "type": "number", "exclusiveMinimum": 0 },
+              "height": { "type": "number", "exclusiveMinimum": 0 },
+              "spacing": { "type": "number", "exclusiveMinimum": 0 },
+              "altitude": { "type": "number" },
+              "heading": { "type": "number" },
+              "shape": { "$ref": "#/definitions/shape" },
+              "formation_spacing": { "type": "number", "exclusiveMinimum": 0 },
+              "speed": { "$ref": "#/definitions/speed" }
+            }
+          } } }
+        },
+        {
+          "if": { "properties": { "primitive": { "const": "orbit" } }, "required": ["primitive"] },
+          "then": { "properties": { "params": {
+            "type": "object", "additionalProperties": false,
+            "required": ["center", "radius", "altitude"],
+            "properties": {
+              "center": { "$ref": "#/definitions/xy" },
+              "radius": { "type": "number", "exclusiveMinimum": 0 },
+              "altitude": { "type": "number" },
+              "turns": { "type": "integer", "minimum": 1 },
+              "points_per_turn": { "type": "integer", "minimum": 3 },
+              "shape": { "$ref": "#/definitions/shape" },
+              "formation_spacing": { "type": "number", "exclusiveMinimum": 0 },
+              "speed": { "$ref": "#/definitions/speed" }
+            }
+          } } }
+        },
+        {
+          "if": { "properties": { "primitive": { "const": "spiral" } }, "required": ["primitive"] },
+          "then": { "properties": { "params": {
+            "type": "object", "additionalProperties": false,
+            "required": ["center", "altitude"],
+            "properties": {
+              "center": { "$ref": "#/definitions/xy" },
+              "start_radius": { "type": "number", "exclusiveMinimum": 0 },
+              "growth": { "type": "number", "exclusiveMinimum": 0 },
+              "altitude": { "type": "number" },
+              "turns": { "type": "integer", "minimum": 1 },
+              "points_per_turn": { "type": "integer", "minimum": 3 },
+              "shape": { "$ref": "#/definitions/shape" },
+              "formation_spacing": { "type": "number", "exclusiveMinimum": 0 },
+              "speed": { "$ref": "#/definitions/speed" }
+            }
+          } } }
+        },
+        {
+          "if": {
+            "properties": { "primitive": { "enum": ["hold", "land", "rtl"] } },
+            "required": ["primitive"]
+          },
+          "then": { "properties": { "params": {
+            "type": "object", "additionalProperties": false, "properties": {}
+          } } }
+        }
+      ]
+    }
+  }
+}

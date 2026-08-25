@@ -1,0 +1,19 @@
+{
+    "ROS2.distro": "humble",
+    "python.autoComplete.extraPaths": [
+        "/home/prasad/ws_swarm/build/px4_offboard",
+        "/home/prasad/ws_swarm/install/px4_offboard/lib/python3.10/site-packages",
+        "/home/prasad/ws_swarm/install/px4_msgs/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/prasad/ws_swarm/build/px4_offboard",
+        "/home/prasad/ws_swarm/install/px4_offboard/lib/python3.10/site-packages",
+        "/home/prasad/ws_swarm/install/px4_msgs/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "git.ignoreLimitWarning": true,
+    "cmake.sourceDirectory": "/home/prasad/ws_swarm/src/px4_msgs"
+}

@@ -1,0 +1,9 @@
+# ByteTrack tuned for WEAKLY-detected targets (small synthetic actors). Low thresholds so
+# real-but-low-confidence detections still initiate and sustain a persistent track id.
+tracker_type: bytetrack
+track_high_thresh: 0.20
+track_low_thresh: 0.05
+new_track_thresh: 0.20
+track_buffer: 60
+match_thresh: 0.85
+fuse_score: True

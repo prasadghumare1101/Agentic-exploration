@@ -1,0 +1,38 @@
+# Version ceilings applied to EVERY pip install in the image, including the ones this project
+# does not control (PX4's Tools/setup/requirements.txt, and whatever ultralytics pulls in).
+#
+# Why a constraints file rather than more pins: a pin only fixes a package you install by
+# name. A constraint also binds TRANSITIVE dependencies, which is where drift actually gets
+# in — pip resolving `numpy>=1.13` to whatever is newest on the day the image is built.
+#
+# numpy is the one that matters most. opencv-python 4.9.0.80 is compiled against the numpy
+# 1.x C ABI; numpy 2.x makes `import cv2` fail with "numpy.core.multiarray failed to import".
+# That kills the detector at startup, which silently removes detection, tracking and follow
+# while flight still works — the hardest kind of failure to trace back to a package version.
+numpy==1.26.4
+
+# Pinned because the LLM layer talks to this API directly and its client surface moves.
+huggingface-hub==1.4.1
+python-dotenv==1.2.1
+
+# ROS 2 Humble's message generation is built against these; newer majors change their APIs.
+empy==3.3.4
+lark==1.1.1
+jinja2==3.1.6
+
+# Vision stack, matched to the versions this system was validated against.
+opencv-python==4.9.0.80
+# Same version as opencv-python on purpose - the two wheels ship the same cv2 and mixing
+# versions gives whichever installed last. contrib is what carries the CSRT tracker that
+# detector.py needs; without it perception detects but never locks on.
+opencv-contrib-python==4.9.0.80
+torch==2.11.0
+torchvision==0.26.0
+ultralytics==8.3.223
+
+# Console backend.
+fastapi==0.139.2
+uvicorn==0.41.0
+pydantic==2.12.5
+psutil==5.9.0
+pyulog==1.2.2

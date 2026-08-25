@@ -1,0 +1,11 @@
+{
+  "mission_id": "demo_orbit",
+  "phases": [
+    {"name": "takeoff", "primitive": "takeoff", "params": {"altitude": 6.0}, "timeout": 40},
+    {"name": "orbit", "primitive": "orbit",
+     "params": {"center": [0, 0], "radius": 15, "altitude": 6.0, "turns": 2,
+                "points_per_turn": 12, "shape": "circle", "formation_spacing": 5},
+     "timeout": 180},
+    {"name": "home", "primitive": "rtl", "params": {}, "timeout": 60}
+  ]
+}

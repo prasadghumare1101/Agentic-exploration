@@ -1,0 +1,11 @@
+{
+  "mission_id": "demo_survey",
+  "phases": [
+    {"name": "takeoff", "primitive": "takeoff", "params": {"altitude": 5.0}, "timeout": 40},
+    {"name": "sweep", "primitive": "survey",
+     "params": {"center": [0, 0], "width": 40, "height": 40, "spacing": 10,
+                "altitude": 5.0, "shape": "wedge", "formation_spacing": 5, "speed": 3},
+     "timeout": 120},
+    {"name": "home", "primitive": "rtl", "params": {}, "timeout": 60}
+  ]
+}

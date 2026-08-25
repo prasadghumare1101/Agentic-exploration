@@ -1,0 +1,13 @@
+# Everything the image must NOT carry. build.sh stages only what is needed into context/,
+# but these are excluded explicitly so a stray copy can never bloat or poison the image.
+**/node_modules
+**/__pycache__
+**/*.pyc
+**/build
+**/install
+**/log
+**/logs
+**/*.ulg
+**/*.db
+**/.git
+**/dist
