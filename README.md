@@ -11,6 +11,7 @@
   <img src="https://img.shields.io/badge/RTAB--Map-SLAM-2E7D32?style=flat-square" alt="RTAB-Map">
   <img src="https://img.shields.io/badge/PX4-SITL-3C9DD0?style=flat-square" alt="PX4">
   <img src="https://img.shields.io/badge/Docker-ready-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/Hugging%20Face-Inference-FFD21E?style=flat-square&logo=huggingface&logoColor=black" alt="Hugging Face">
   <img src="https://img.shields.io/badge/status-simulation%20testbed-9A6412?style=flat-square" alt="Status">
 </p>
 
