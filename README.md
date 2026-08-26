@@ -34,8 +34,7 @@ cd Agentic-exploration
 
 ./scripts/fetch_gazebo_models.sh    # one-time, ~580 MB of world meshes
 ./docker/build.sh 2>&1 | tee /tmp/build.log
-
-AEGIS_GPS_DENIED=1 AEGIS_MODE=swarm AEGIS_DRONES=3 ./docker/run.sh
+./docker/run.sh
 ```
 
 Then open <http://localhost:5200>.
